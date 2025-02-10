@@ -1,0 +1,44 @@
+@import 'normalize.css';
+@import 'reset.css';
+
+body{
+    background-color: #7945FF;
+}
+
+main{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-board{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 24px;
+    grid-row-gap: 24px;
+    background-color: white;
+    padding: 20px;
+    padding-bottom: 60px;
+    border: 3px solid black; 
+    border-radius: 32px;
+}
+    
+    
+.board-cell{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #7945FF;
+    border: 3px solid black;
+}
+
+.red-circle{
+    background-color: #FD6687;
+}
+
+.yellow-circle{
+    background-color: #FFCE67
+    ;
+}
