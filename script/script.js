@@ -1,4 +1,7 @@
-const $gamecells = document.querySelectorAll('.board-cell');
+const $gamecells = document.querySelectorAll('.board-cell')
+const $startGameBtn = document.querySelector('.start-game-btn')
+const $menu = document.querySelector('.menu')
+const $game = document.querySelector('.game')
 
 let board = [
     ["", "", "", "", "", "", ""],
@@ -11,28 +14,35 @@ let board = [
 
 let currentPlayer = "x";
 
-console.log(board);
 $gamecells.forEach((gameCell) => {
     gameCell.addEventListener('click', function () {
-        let cellX = parseInt(gameCell.getAttribute('data-x'));
-        let cellY = parseInt(gameCell.getAttribute('data-y'));
-
-        for (let i = board.length - 1; i >= 0; i--) {
-            if (board[i][cellY] === "") {
-                cellX = i;
-                break;
-            }
-        }
-        if (board[cellX][cellY] === "") {
-            updateGame(cellX, cellY);
-        } else {
-            alert("c'est plein");
-        }
+        dropToken(gameCell)
     });
+
 });
 
+
+function dropToken(gameCell){
+    let cellX = parseInt(gameCell.getAttribute('data-x'));
+    let cellY = findEmptyRowInColumn(cellX); 
+    if (cellY !== -1) {
+        updateGame(cellX, cellY);
+    }else{
+        alert('non, non, non')
+    }
+}
+
+function findEmptyRowInColumn(x) {
+    for (let y = board.length - 1; y >= 0; y--) {
+        if (board[y][x] === "") {
+            return y; 
+        }
+    }
+    return -1;
+}
+
 function updateGame(x, y) {
-    board[x][y] = currentPlayer;
+    board[y][x] = currentPlayer;
 
     if (currentPlayer === "x") {
         document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('yellow-circle');
@@ -40,7 +50,13 @@ function updateGame(x, y) {
         document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('red-circle');
     }
 
-    currentPlayer = (currentPlayer === "x") ? "y" : "x";
+    currentPlayer = (currentPlayer === "x") ? "o" : "x";
     console.log(board);
 }
 
+
+
+$startGameBtn.addEventListener('click', () =>{
+    $menu.classList.add('hidden')
+    $game.classList.remove('hidden')
+})
