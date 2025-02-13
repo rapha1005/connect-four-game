@@ -2,9 +2,12 @@ const $gamecells = document.querySelectorAll('.board-cell')
 const $startGameBtn = document.querySelector('.start-game-btn')
 const $menu = document.querySelector('.menu')
 const $game = document.querySelector('.game')
+const $gameBoard = document.querySelector('.player-board')
 const $rulesBtn = document.querySelector('.rules-btn')
 const $winnerIndicator = document.querySelector('.winner-indicator')
-
+const $gameBoardRed = document.querySelector('.red-player p')
+const $gameBoardYellow = document.querySelector('.yellow-player p')
+const $playerPosIndicator = document.querySelector('.player')
 let board = [
     ["", "", "", "", "", "", ""],
     ["", "", "", "", "", "", ""],
@@ -14,13 +17,22 @@ let board = [
     ["", "", "", "", "", "", ""]
 ];
 
-let currentPlayer = "x";
+
+let player1Score = 0
+let player2Score = 0
+let currentPlayer = "o";
+let previousStarter = "o"
+let turnTimer = 15
 
 $gamecells.forEach((gameCell) => {
     gameCell.addEventListener('click', function () {
         dropToken(gameCell)
     });
-
+    gameCell.addEventListener('mouseover', () => {
+        const rect = gameCell.offsetLeft;
+        $playerPosIndicator.style.left = `${rect}px`;
+    });
+    
 });
 
 
@@ -28,7 +40,7 @@ function dropToken(gameCell){
     let cellX = parseInt(gameCell.getAttribute('data-x'));
     let cellY = findEmptyRow(cellX); 
     if (cellY !== -1) {
-        updateGame(cellX, cellY);
+        updateGame(cellX, cellY, false);
     }else{
         alert('non, non, non')
     }
@@ -44,7 +56,7 @@ function findEmptyRow(x) {
 }
 
 function checkWin(x, y){
-    console.log(board[y][x]+ "ok")
+    console.log(board[y][x]+ " ok")
     let score = 0
     for(let i = 1; i<4; i++){
         if(board[y][x + i] === currentPlayer){
@@ -58,7 +70,7 @@ function checkWin(x, y){
         }
     }
 
-    score === 4 ? alertWin() : score = 0
+    score === 4 ? Win(currentPlayer) : score = 0
 
     for(let i = 0; i<4; i++){
         if (y + i < board.length && board[y + i][x] === currentPlayer){
@@ -66,16 +78,54 @@ function checkWin(x, y){
         }
     }
 
-    score === 4 ? alertWin() : score = 0
+    score === 4 ? Win(currentPlayer) : score = 0
+
+    // diagonal
+
+    for(let i = 0; i<4; i++){
+        console.log ("diag 1 : ")
+        if(y + i <= 5 && x + i <= 6 && board[y + i][x + i] === currentPlayer){
+            console.log('diag 1 = ' + i + "   score = " + score)
+            console.log(`'diag 1 = ${i} + score = ${score}`)
+           score++
+        }
+    }
+
+    for(let i = 1; i<4; i++){
+        if(y-i >= 0 && x-i >= 0&& board[y - i][x - i] === currentPlayer){
+           score++
+           console.log('diag 2 = ' + i + "   score = " + score)
+        }
+    }
+    score === 4 ? Win(currentPlayer) : score = 0
+
+    // anti diagonal
+
+    for(let i = 0; i<4; i++){
+        if(y + i <board.length && x - i >= 0 && board[y + i][x - i] === currentPlayer){
+           score++
+        }
+    }
+    for(let i = 1; i<4; i++){
+        if(y - i >= 0 && x - i < board.length && board[y - i][x + i] === currentPlayer){
+            console.log('+++' + i )
+           score++
+        }
+    }
+    score === 4 ? Win(currentPlayer) : score = 0
 
 }
 
-function alertWin() { 
+function Win(winner) { 
     $game.style.pointerEvents = "none";
 
-    if (currentPlayer === "x") {
+    if (winner === "x") {
         $winnerIndicator.style.backgroundColor = "#FFCE67";
-    } else {
+        player1Score++
+        $gameBoardYellow.textContent  = player1Score 
+    } else if(winner === "o") {
+        player2Score++
+        $gameBoardRed.textContent  = player2Score 
         $winnerIndicator.style.backgroundColor = "#FD6687";
     }
 
@@ -85,19 +135,27 @@ function alertWin() {
 }
 
 
-function updateGame(x, y) {
+function updateGame(x, y, pass) {
     board[y][x] = currentPlayer;
-
-    if (currentPlayer === "x") {
-        document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('yellow-circle');
-        
-    } else {
-        document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('red-circle');
-
+    if(pass === false){
+        if (currentPlayer === "x") {
+            document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('yellow-circle');
+        } else {
+            document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('red-circle');
+            checkWin(x, y)
+        }
     }
-    checkWin(x, y)
-    currentPlayer = (currentPlayer === "x") ? "o" : "x";
+    
+    if(currentPlayer === "x"){
+        document.querySelector('.player svg path').setAttribute('fill', '#FD6687')
+        currentPlayer = "o"
+    }else{
+        document.querySelector('.player svg path').setAttribute('fill', '#FFCE67');
+        currentPlayer = "x"
+    }
     console.log(board);
+    console.log("current player : " + currentPlayer)
+    turnTimer = 15
 }
 
 
@@ -110,7 +168,9 @@ function restartGame(){
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""]
     ]
-    currentPlayer = "x"
+    previousStarter = previousStarter === "o" ? "x" : "o";
+    currentPlayer = previousStarter;
+    turnTimer = 15
     $game.style.pointerEvents = "initial";
     $winnerIndicator.style.backgroundColor = "#5C2DD5";
     $gamecells.forEach((gameCell) =>{
@@ -122,8 +182,22 @@ $startGameBtn.addEventListener('click', () =>{
     $menu.classList.add('hidden')
     $game.classList.remove('hidden')
     $winnerIndicator.classList.remove('hidden')
+    timeControler()
 })
 
 $rulesBtn.addEventListener('click', () =>{
-    window.open('https://steamuserimages-a.akamaihd.net/ugc/2053129740384007681/008613159A03A2D9A1A38C0F66FC3F3CBCF73C9C/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true', '_blank')
+    window.open('https://miro.medium.com/v2/resize:fit:436/1*HIH--Y1BpKGjJ6pjHMUm4w.jpeg', '_blank')
 })
+
+
+
+function timeControler(){
+    setInterval(() => {
+        turnTimer--
+        console.log(turnTimer)
+        if(turnTimer === 0){
+            updateGame(0, 0, true)
+        }
+    }, 1000);
+}
+
