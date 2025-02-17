@@ -8,6 +8,8 @@ const $winnerIndicator = document.querySelector('.winner-indicator')
 const $gameBoardRed = document.querySelector('.red-player p')
 const $gameBoardYellow = document.querySelector('.yellow-player p')
 const $playerPosIndicator = document.querySelector('.player')
+const $gameRulesScreen = document.querySelector('.rules-screen')
+const $gameRulesScreenBtn = document.querySelector('.close-rules-btn')
 let board = [
     ["", "", "", "", "", "", ""],
     ["", "", "", "", "", "", ""],
@@ -186,7 +188,11 @@ $startGameBtn.addEventListener('click', () =>{
 })
 
 $rulesBtn.addEventListener('click', () =>{
-    window.open('https://miro.medium.com/v2/resize:fit:436/1*HIH--Y1BpKGjJ6pjHMUm4w.jpeg', '_blank')
+    $gameRulesScreen.classList.toggle('hidden')
+})
+
+$gameRulesScreenBtn.addEventListener('click', () =>{
+    $gameRulesScreen.classList.toggle('hidden')
 })
 
 
