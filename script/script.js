@@ -10,6 +10,7 @@ const $gameBoardYellow = document.querySelector('.yellow-player p')
 const $playerPosIndicator = document.querySelector('.player')
 const $gameRulesScreen = document.querySelector('.rules-screen')
 const $gameRulesScreenBtn = document.querySelector('.close-rules-btn')
+
 let board = [
     ["", "", "", "", "", "", ""],
     ["", "", "", "", "", "", ""],
@@ -65,12 +66,14 @@ function checkWin(x, y){
             score++
         }
     }
+    console.log('++++++++++')
     for(let i = 0; i<4; i++){
     
         if(board[y][x - i] === currentPlayer){
             score++
         }
     }
+    console.log('SCOOORE = ' + score)
 
     score === 4 ? Win(currentPlayer) : score = 0
 
@@ -142,10 +145,11 @@ function updateGame(x, y, pass) {
     if(pass === false){
         if (currentPlayer === "x") {
             document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('yellow-circle');
+
         } else {
             document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('red-circle');
-            checkWin(x, y)
         }
+        checkWin(x, y)
     }
     
     if(currentPlayer === "x"){
@@ -195,7 +199,9 @@ $gameRulesScreenBtn.addEventListener('click', () =>{
     $gameRulesScreen.classList.toggle('hidden')
 })
 
-
+document.querySelector('.nav-restart-btn').addEventListener('click', () =>{
+    restartGame()
+})
 
 function timeControler(){
     setInterval(() => {
