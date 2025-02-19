@@ -81,7 +81,7 @@ nav button{
 
 .rules-btn{
     width: 100%;
-    align-items: center;
+    text-align: left;
     font-size: 24px;
     font-weight: 700;
     background-color: #ffffff;
@@ -251,4 +251,42 @@ ol{
 
 .hidden{
     display: none;
+}
+
+
+.game-pause-menu{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background-color: #7945FF;
+    padding: 40px;
+    box-shadow: 0px 10px 0px 0px #000000;
+    border: 3px solid black;
+    border-radius: 40px;
+    text-align: center;
+}
+
+.game-pause-menu h2{
+    color: #FFFFFF;
+    font-size: 56px;
+    font-weight: 700;
+}
+
+.game-pause-menu button{
+    width: 90%;
+    padding: 21px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 10px 0px 0px #000000;
+    border: 3px solid black;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 32px;
+    cursor: pointer;
+}
+
+.game-menu-quit-btn {
+    background-color: #FD6687 !important;
+    color: white;
 }

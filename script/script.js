@@ -10,7 +10,8 @@ const $gameBoardYellow = document.querySelector('.yellow-player p')
 const $playerPosIndicator = document.querySelector('.player')
 const $gameRulesScreen = document.querySelector('.rules-screen')
 const $gameRulesScreenBtn = document.querySelector('.close-rules-btn')
-
+const $gamePauseMenuBtn = document.querySelector('.nav-home-btn')
+const $gamePauseMenu = document.querySelector('.game-pause-menu')
 let board = [
     ["", "", "", "", "", "", ""],
     ["", "", "", "", "", "", ""],
@@ -132,6 +133,8 @@ function Win(winner) {
         player2Score++
         $gameBoardRed.textContent  = player2Score 
         $winnerIndicator.style.backgroundColor = "#FD6687";
+    }else{
+        alert('no winner')
     }
 
     setTimeout(() => {
@@ -142,6 +145,9 @@ function Win(winner) {
 
 function updateGame(x, y, pass) {
     board[y][x] = currentPlayer;
+
+    board.every(row => row.every(cell => cell !== "")) ? Win() : pass
+
     if(pass === false){
         if (currentPlayer === "x") {
             document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('yellow-circle');
@@ -165,7 +171,7 @@ function updateGame(x, y, pass) {
 }
 
 
-function restartGame(){
+function restartGame(all){
     board = [
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""],
@@ -182,7 +188,27 @@ function restartGame(){
     $gamecells.forEach((gameCell) =>{
         gameCell.className = "board-cell"
     })
+    
+    if(all === true){
+        player1Score = 0
+        $gameBoardYellow.textContent  = player1Score 
+        player2Score = 0
+        $gameBoardRed.textContent  = player2Score 
+    }
 }
+
+
+function timeControler(){
+    setInterval(() => {
+        turnTimer--
+        console.log(turnTimer)
+        if(turnTimer === 0){
+            updateGame(0, 0, true)
+        }
+    }, 1000);
+}
+
+
 
 $startGameBtn.addEventListener('click', () =>{
     $menu.classList.add('hidden')
@@ -203,13 +229,19 @@ document.querySelector('.nav-restart-btn').addEventListener('click', () =>{
     restartGame()
 })
 
-function timeControler(){
-    setInterval(() => {
-        turnTimer--
-        console.log(turnTimer)
-        if(turnTimer === 0){
-            updateGame(0, 0, true)
-        }
-    }, 1000);
-}
+$gamePauseMenuBtn.addEventListener('click', ()=>{
+    $gamePauseMenu.classList.toggle('hidden')
+})
 
+document.querySelector('.game-menu-continue-btn').addEventListener('click', () =>{
+    $gamePauseMenu.classList.toggle('hidden')
+
+})
+
+document.querySelector('.game-menu-restart-btn').addEventListener('click', () =>{
+    restartGame(true)
+})
+
+document.querySelector('.game-menu-quit-btn').addEventListener('click', () =>{
+    location.reload()
+})
