@@ -55,6 +55,11 @@ nav button{
     color: white;
     font-weight: 700;
     cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+nav button:hover{
+    background-color: #FD6687;
 }
 
 
@@ -249,9 +254,6 @@ ol{
 }
 
 
-.hidden{
-    display: none;
-}
 
 
 .game-pause-menu{
@@ -289,4 +291,74 @@ ol{
 .game-menu-quit-btn {
     background-color: #FD6687 !important;
     color: white;
+}
+
+
+.time-indicator{
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 198px;
+    height: 164px;
+    padding-top: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    text-align: center;
+}
+
+.time-indicator p{
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 72px;
+}
+
+
+.red-turn {
+    background-image: url(../images/turn-background-red.svg);
+    color: white;
+  }
+  .yellow-turn {
+    background-image: url(../images/turn-background-yellow.svg);
+    color: white;
+  }  
+
+
+.winner{
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0px 10px 0px 0px #000000;
+    border: 3px solid black;
+    text-align: center;
+    padding: 74px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 20px;
+}
+
+.winner h2{
+    font-size: 56px;
+}
+
+.winner button{
+    background-color: #5C2DD5;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    padding: 8px;
+    padding-left: 22px;
+    padding-right: 22px;
+    cursor: pointer;
+}
+
+
+
+
+.hidden{
+    display: none;
 }

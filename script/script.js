@@ -12,6 +12,9 @@ const $gameRulesScreen = document.querySelector('.rules-screen')
 const $gameRulesScreenBtn = document.querySelector('.close-rules-btn')
 const $gamePauseMenuBtn = document.querySelector('.nav-home-btn')
 const $gamePauseMenu = document.querySelector('.game-pause-menu')
+const $currentTimeIndicator = document.querySelector('.time-indicator')
+const $currentTimeIndicatorP = document.querySelector('.time-indicator p')
+const $winnerAlert = document.querySelector('.winner')
 let board = [
     ["", "", "", "", "", "", ""],
     ["", "", "", "", "", "", ""],
@@ -27,6 +30,7 @@ let player2Score = 0
 let currentPlayer = "o";
 let previousStarter = "o"
 let turnTimer = 15
+let timerInterval;
 
 $gamecells.forEach((gameCell) => {
     gameCell.addEventListener('click', function () {
@@ -121,25 +125,33 @@ function checkWin(x, y){
     score === 4 ? Win(currentPlayer) : score = 0
 
 }
+console.log(document.querySelector('.winner button'));
 
 function Win(winner) { 
-    $game.style.pointerEvents = "none";
-
+    clearInterval(timerInterval)
+    $winnerAlert.classList.toggle('hidden')
+    $currentTimeIndicator.classList.toggle('hidden')
     if (winner === "x") {
         $winnerIndicator.style.backgroundColor = "#FFCE67";
         player1Score++
-        $gameBoardYellow.textContent  = player1Score 
+        $gameBoardYellow.textContent  = player1Score
+
+         $winnerAlert.children[0].textContent = "PLAYER 2"
     } else if(winner === "o") {
         player2Score++
         $gameBoardRed.textContent  = player2Score 
         $winnerIndicator.style.backgroundColor = "#FD6687";
+        $winnerAlert.children[0].textContent = "PLAYER 1"
     }else{
         alert('no winner')
     }
 
-    setTimeout(() => {
+
+    document.querySelector('.winner button').addEventListener('click', () =>{
         restartGame()
-    }, 5000);
+
+    })
+
 }
 
 
@@ -161,9 +173,16 @@ function updateGame(x, y, pass) {
     if(currentPlayer === "x"){
         document.querySelector('.player svg path').setAttribute('fill', '#FD6687')
         currentPlayer = "o"
+
+        $currentTimeIndicator.children[0].textContent = "PLAYER 1’S TURN"
+        $currentTimeIndicator.classList.add('red-turn')
+        $currentTimeIndicator.classList.remove('yellow-turn')
     }else{
         document.querySelector('.player svg path').setAttribute('fill', '#FFCE67');
         currentPlayer = "x"
+        $currentTimeIndicator.children[0].textContent = "PLAYER 2’S TURN"
+        $currentTimeIndicator.classList.remove('red-turn')
+        $currentTimeIndicator.classList.add('yellow-turn')
     }
     console.log(board);
     console.log("current player : " + currentPlayer)
@@ -180,11 +199,14 @@ function restartGame(all){
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""]
     ]
+    $winnerAlert.classList.toggle('hidden')
+    $currentTimeIndicator.classList.toggle('hidden')
     previousStarter = previousStarter === "o" ? "x" : "o";
     currentPlayer = previousStarter;
-    turnTimer = 15
     $game.style.pointerEvents = "initial";
     $winnerIndicator.style.backgroundColor = "#5C2DD5";
+    turnTimer = 15
+    timeControler()
     $gamecells.forEach((gameCell) =>{
         gameCell.className = "board-cell"
     })
@@ -199,11 +221,12 @@ function restartGame(all){
 
 
 function timeControler(){
-    setInterval(() => {
-        turnTimer--
-        console.log(turnTimer)
+    timerInterval = setInterval(() => {
+        turnTimer--;
+        console.log(turnTimer);
+        $currentTimeIndicatorP.textContent = `${turnTimer}s`;
         if(turnTimer === 0){
-            updateGame(0, 0, true)
+            updateGame(0, 0, true);
         }
     }, 1000);
 }
