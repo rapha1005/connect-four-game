@@ -156,7 +156,8 @@ nav button:hover{
     width: 34px;
     height: 34px;
     border: 6px solid white;
-    outline: 16px solid #FD6687; 
+    outline: 16px solid #FD6687;
+    box-shadow: none;
 }
 
 .winner-yellow-circle {
@@ -164,7 +165,8 @@ nav button:hover{
     width: 34px;
     height: 34px;
     border: 6px solid white;
-    outline: 16px solid #FFCE67; 
+    outline: 16px solid #FFCE67;
+    box-shadow: none;
 }
 
 
