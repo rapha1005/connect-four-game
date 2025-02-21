@@ -130,13 +130,14 @@ function checkWin(x, y){
 function Win(winner) { 
     clearInterval(timerInterval)
     
-    $winnerAlert.classList.add('hidden')
+    $winnerAlert.classList.remove('hidden')
 
     if (winner === "x") {
         player1Score++
         $gameBoardYellow.textContent  = player1Score
         $winnerIndicator.style.backgroundColor = "#FFCE67";
         $winnerAlert.children[0].textContent = "PLAYER 2"
+        console.log('player2 winnnn')
     } else if(winner === "o") {
         player2Score++
         $gameBoardRed.textContent  = player2Score 
@@ -202,6 +203,7 @@ function restartGame(all){
     ]
     $winnerAlert.classList.add('hidden')
     previousStarter = previousStarter === "o" ? "x" : "o";
+
     currentPlayer = previousStarter;
     $game.style.pointerEvents = "initial";
     $winnerIndicator.style.backgroundColor = "#5C2DD5";
@@ -210,7 +212,7 @@ function restartGame(all){
     $gamecells.forEach((gameCell) =>{
         gameCell.className = "board-cell"
     })
-    
+    console.log(currentPlayer)
     if(all === true){
         player1Score = 0
         $gameBoardYellow.textContent  = player1Score 
