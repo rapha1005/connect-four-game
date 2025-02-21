@@ -63,68 +63,84 @@ function findEmptyRow(x) {
     return -1;
 }
 
-function checkWin(x, y){
-    
-    let score = 0
-    for(let i = 1; i<4; i++){
-        if(board[y][x + i] === currentPlayer){
-            score++
-        }
-    }
-    
-    for(let i = 0; i<4; i++){
-    
-        if(board[y][x - i] === currentPlayer){
-            score++
-        }
-    }
-    
+function checkWin(x, y) {
+    let score = 0;
+    let winCells = [];
 
-    score === 4 ? Win(currentPlayer) : score = 0
-
-    for(let i = 0; i<4; i++){
-        if (y + i < board.length && board[y + i][x] === currentPlayer){
-            score++
+    for (let i = 0; i < 4; i++) {
+        if (x + i < 7 && board[y][x + i] === currentPlayer) {
+            score++;
+            winCells.push([y, x + i]);
         }
     }
 
-    score === 4 ? Win(currentPlayer) : score = 0
+    if (score === 4) {
+        winCells.forEach(cell => {
+            const [winY, winX] = cell;
+            currentPlayer === "o" ? document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-red-circle') : document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-yellow-circle');
+        });
+        Win(currentPlayer);
+        return;
+    }
 
-    // diagonal
+    score = 0;
+    winCells = [];
 
-    for(let i = 0; i<4; i++){
-        
-        if(y + i <= 5 && x + i <= 6 && board[y + i][x + i] === currentPlayer){
-            
-            
-           score++
+    for (let i = 0; i < 4; i++) {
+        if (y + i < 6 && board[y + i][x] === currentPlayer) {
+            score++;
+            winCells.push([y + i, x]);
         }
     }
 
-    for(let i = 1; i<4; i++){
-        if(y-i >= 0 && x-i >= 0&& board[y - i][x - i] === currentPlayer){
-           score++
-           
+    if (score === 4) {
+        winCells.forEach(cell => {
+            const [winY, winX] = cell;
+            currentPlayer === "o" ? document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-red-circle') : document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-yellow-circle');
+        });
+        Win(currentPlayer);
+        return;
+    }
+
+    score = 0;
+    winCells = [];
+
+    for (let i = 0; i < 4; i++) {
+        if (y + i < 6 && x + i < 7 && board[y + i][x + i] === currentPlayer) {
+            score++;
+            winCells.push([y + i, x + i]);
         }
     }
-    score === 4 ? Win(currentPlayer) : score = 0
 
-    // anti diagonal
+    if (score === 4) {
+        winCells.forEach(cell => {
+            const [winY, winX] = cell;
+            currentPlayer === "o" ? document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-red-circle') : document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-yellow-circle');
+        });
+        Win(currentPlayer);
+        return;
+    }
 
-    for(let i = 0; i<4; i++){
-        if(y + i <board.length && x - i >= 0 && board[y + i][x - i] === currentPlayer){
-           score++
+    score = 0;
+    winCells = [];
+
+    for (let i = 0; i < 4; i++) {
+        if (y - i >= 0 && x + i < 7 && board[y - i][x + i] === currentPlayer) {
+            score++;
+            winCells.push([y - i, x + i]);
         }
     }
-    for(let i = 1; i<4; i++){
-        if(y - i >= 0 && x - i < board.length && board[y - i][x + i] === currentPlayer){
-            
-           score++
-        }
-    }
-    score === 4 ? Win(currentPlayer) : score = 0
 
+    if (score === 4) {
+        winCells.forEach(cell => {
+            const [winY, winX] = cell;
+            currentPlayer === "o" ? document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-red-circle') : document.querySelector(`[data-x="${winX}"][data-y="${winY}"]`).classList.add('winner-yellow-circle');
+        });
+        Win(currentPlayer);
+    }
 }
+
+
 
 
 function Win(winner) { 
@@ -137,7 +153,6 @@ function Win(winner) {
         $gameBoardYellow.textContent  = player1Score
         $winnerIndicator.style.backgroundColor = "#FFCE67";
         $winnerAlert.children[0].textContent = "PLAYER 2"
-        console.log('player2 winnnn')
     } else if(winner === "o") {
         player2Score++
         $gameBoardRed.textContent  = player2Score 
@@ -149,7 +164,6 @@ function Win(winner) {
 
 
     document.querySelector('.winner button').addEventListener('click', () =>{
-        console.log('wweee')
         restartGame()
 
     })
@@ -204,7 +218,7 @@ function restartGame(all){
     $winnerAlert.classList.add('hidden')
     previousStarter = previousStarter === "o" ? "x" : "o";
 
-    currentPlayer = previousStarter;
+ 
     $game.style.pointerEvents = "initial";
     $winnerIndicator.style.backgroundColor = "#5C2DD5";
     turnTimer = 15

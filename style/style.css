@@ -151,6 +151,26 @@ nav button:hover{
     box-shadow: inset 0px 6px 0px 0px  rgba(0,0,0,0.41);
 }
 
+.winner-red-circle {
+    transform: translate(50%, 50%);
+    width: 34px;
+    height: 34px;
+    border: 6px solid white;
+    outline: 16px solid #FD6687; 
+}
+
+.winner-yellow-circle {
+    transform: translate(50%, 50%);
+    width: 34px;
+    height: 34px;
+    border: 6px solid white;
+    outline: 16px solid #FFCE67; 
+}
+
+
+
+
+
 .player-board{
     background-color: white;
     display: flex;
