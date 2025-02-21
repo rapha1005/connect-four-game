@@ -64,21 +64,21 @@ function findEmptyRow(x) {
 }
 
 function checkWin(x, y){
-    console.log(board[y][x]+ " ok")
+    
     let score = 0
     for(let i = 1; i<4; i++){
         if(board[y][x + i] === currentPlayer){
             score++
         }
     }
-    console.log('++++++++++')
+    
     for(let i = 0; i<4; i++){
     
         if(board[y][x - i] === currentPlayer){
             score++
         }
     }
-    console.log('SCOOORE = ' + score)
+    
 
     score === 4 ? Win(currentPlayer) : score = 0
 
@@ -93,10 +93,10 @@ function checkWin(x, y){
     // diagonal
 
     for(let i = 0; i<4; i++){
-        console.log ("diag 1 : ")
+        
         if(y + i <= 5 && x + i <= 6 && board[y + i][x + i] === currentPlayer){
-            console.log('diag 1 = ' + i + "   score = " + score)
-            console.log(`'diag 1 = ${i} + score = ${score}`)
+            
+            
            score++
         }
     }
@@ -104,7 +104,7 @@ function checkWin(x, y){
     for(let i = 1; i<4; i++){
         if(y-i >= 0 && x-i >= 0&& board[y - i][x - i] === currentPlayer){
            score++
-           console.log('diag 2 = ' + i + "   score = " + score)
+           
         }
     }
     score === 4 ? Win(currentPlayer) : score = 0
@@ -118,25 +118,25 @@ function checkWin(x, y){
     }
     for(let i = 1; i<4; i++){
         if(y - i >= 0 && x - i < board.length && board[y - i][x + i] === currentPlayer){
-            console.log('+++' + i )
+            
            score++
         }
     }
     score === 4 ? Win(currentPlayer) : score = 0
 
 }
-console.log(document.querySelector('.winner button'));
+
 
 function Win(winner) { 
     clearInterval(timerInterval)
-    $winnerAlert.classList.toggle('hidden')
-    $currentTimeIndicator.classList.toggle('hidden')
+    
+    $winnerAlert.classList.add('hidden')
+
     if (winner === "x") {
-        $winnerIndicator.style.backgroundColor = "#FFCE67";
         player1Score++
         $gameBoardYellow.textContent  = player1Score
-
-         $winnerAlert.children[0].textContent = "PLAYER 2"
+        $winnerIndicator.style.backgroundColor = "#FFCE67";
+        $winnerAlert.children[0].textContent = "PLAYER 2"
     } else if(winner === "o") {
         player2Score++
         $gameBoardRed.textContent  = player2Score 
@@ -148,6 +148,7 @@ function Win(winner) {
 
 
     document.querySelector('.winner button').addEventListener('click', () =>{
+        console.log('wweee')
         restartGame()
 
     })
@@ -184,8 +185,8 @@ function updateGame(x, y, pass) {
         $currentTimeIndicator.classList.remove('red-turn')
         $currentTimeIndicator.classList.add('yellow-turn')
     }
-    console.log(board);
-    console.log("current player : " + currentPlayer)
+    
+    
     turnTimer = 15
 }
 
@@ -199,8 +200,7 @@ function restartGame(all){
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""]
     ]
-    $winnerAlert.classList.toggle('hidden')
-    $currentTimeIndicator.classList.toggle('hidden')
+    $winnerAlert.classList.add('hidden')
     previousStarter = previousStarter === "o" ? "x" : "o";
     currentPlayer = previousStarter;
     $game.style.pointerEvents = "initial";
@@ -223,7 +223,7 @@ function restartGame(all){
 function timeControler(){
     timerInterval = setInterval(() => {
         turnTimer--;
-        console.log(turnTimer);
+        
         $currentTimeIndicatorP.textContent = `${turnTimer}s`;
         if(turnTimer === 0){
             updateGame(0, 0, true);
