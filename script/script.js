@@ -15,6 +15,7 @@ const $gamePauseMenu = document.querySelector('.game-pause-menu')
 const $currentTimeIndicator = document.querySelector('.time-indicator')
 const $currentTimeIndicatorP = document.querySelector('.time-indicator p')
 const $winnerAlert = document.querySelector('.winner')
+
 let board = [
     ["", "", "", "", "", "", ""],
     ["", "", "", "", "", "", ""],
@@ -40,16 +41,16 @@ $gamecells.forEach((gameCell) => {
         const rect = gameCell.offsetLeft;
         $playerPosIndicator.style.left = `${rect}px`;
     });
-    
+
 });
 
 
-function dropToken(gameCell){
+function dropToken(gameCell) {
     let cellX = parseInt(gameCell.getAttribute('data-x'));
-    let cellY = findEmptyRow(cellX); 
+    let cellY = findEmptyRow(cellX);
     if (cellY !== -1) {
         updateGame(cellX, cellY, false);
-    }else{
+    } else {
         alert('non, non, non')
     }
 }
@@ -57,7 +58,7 @@ function dropToken(gameCell){
 function findEmptyRow(x) {
     for (let i = 5; i >= 0; i--) {
         if (board[i][x] === "") {
-            return i; 
+            return i;
         }
     }
     return -1;
@@ -67,10 +68,20 @@ function checkWin(x, y) {
     let score = 0;
     let winCells = [];
 
-    for (let i = 0; i < 4; i++) {
-        if (x + i < 7 && board[y][x + i] === currentPlayer) {
-            score++;
+    // Ligne
+    
+    for(let i = 1; i<4; i++){
+        if(board[y][x + i] === currentPlayer){
+            score++
             winCells.push([y, x + i]);
+        }
+    }
+
+    for(let i = 0; i<4; i++){
+
+        if(board[y][x - i] === currentPlayer){
+            score++
+            winCells.push([y, x - i]);
         }
     }
 
@@ -86,6 +97,7 @@ function checkWin(x, y) {
     score = 0;
     winCells = [];
 
+    // colonne
     for (let i = 0; i < 4; i++) {
         if (y + i < 6 && board[y + i][x] === currentPlayer) {
             score++;
@@ -105,12 +117,21 @@ function checkWin(x, y) {
     score = 0;
     winCells = [];
 
+    // diagonale
     for (let i = 0; i < 4; i++) {
-        if (y + i < 6 && x + i < 7 && board[y + i][x + i] === currentPlayer) {
+        if (y + i <= 5 && x + i <= 6 && board[y + i][x + i] === currentPlayer) {
             score++;
-            winCells.push([y + i, x + i]);
+            winCells.push([y + i, x + i]); 
         }
     }
+    
+    for (let i = 1; i < 4; i++) {
+        if (y - i >= 0 && x - i >= 0 && board[y - i][x - i] === currentPlayer) {
+            score++;
+            winCells.push([y - i, x - i]); 
+        }
+    }
+    
 
     if (score === 4) {
         winCells.forEach(cell => {
@@ -124,13 +145,21 @@ function checkWin(x, y) {
     score = 0;
     winCells = [];
 
+    // anti diagonale 
     for (let i = 0; i < 4; i++) {
-        if (y - i >= 0 && x + i < 7 && board[y - i][x + i] === currentPlayer) {
+        if (y + i < board.length && x - i >= 0 && board[y + i][x - i] === currentPlayer) {
+            score++;
+            winCells.push([y + i, x - i]);
+        }
+    }
+    
+    for (let i = 1; i < 4; i++) {
+        if (y - i >= 0 && x + i < board[0].length && board[y - i][x + i] === currentPlayer) {
             score++;
             winCells.push([y - i, x + i]);
         }
     }
-
+    
     if (score === 4) {
         winCells.forEach(cell => {
             const [winY, winX] = cell;
@@ -143,27 +172,27 @@ function checkWin(x, y) {
 
 
 
-function Win(winner) { 
+function Win(winner) {
     clearInterval(timerInterval)
-    
+    document.querySelector('.game-board').style.pointerEvents = "none"
     $winnerAlert.classList.remove('hidden')
-
+    $currentTimeIndicator.classList.add('hidden')
     if (winner === "x") {
         player1Score++
-        $gameBoardYellow.textContent  = player1Score
+        $gameBoardYellow.textContent = player1Score
         $winnerIndicator.style.backgroundColor = "#FFCE67";
         $winnerAlert.children[0].textContent = "PLAYER 2"
-    } else if(winner === "o") {
+    } else if (winner === "o") {
         player2Score++
-        $gameBoardRed.textContent  = player2Score 
+        $gameBoardRed.textContent = player2Score
         $winnerIndicator.style.backgroundColor = "#FD6687";
         $winnerAlert.children[0].textContent = "PLAYER 1"
-    }else{
+    } else {
         alert('no winner')
     }
 
 
-    document.querySelector('.winner button').addEventListener('click', () =>{
+    document.querySelector('.winner button').addEventListener('click', () => {
         restartGame()
 
     })
@@ -176,7 +205,7 @@ function updateGame(x, y, pass) {
 
     board.every(row => row.every(cell => cell !== "")) ? Win() : pass
 
-    if(pass === false){
+    if (pass === false) {
         if (currentPlayer === "x") {
             document.querySelector(`[data-x="${x}"][data-y="${y}"]`).classList.add('yellow-circle');
 
@@ -185,28 +214,28 @@ function updateGame(x, y, pass) {
         }
         checkWin(x, y)
     }
-    
-    if(currentPlayer === "x"){
+
+    if (currentPlayer === "x") {
         document.querySelector('.player svg path').setAttribute('fill', '#FD6687')
         currentPlayer = "o"
 
         $currentTimeIndicator.children[0].textContent = "PLAYER 1’S TURN"
         $currentTimeIndicator.classList.add('red-turn')
         $currentTimeIndicator.classList.remove('yellow-turn')
-    }else{
+    } else {
         document.querySelector('.player svg path').setAttribute('fill', '#FFCE67');
         currentPlayer = "x"
         $currentTimeIndicator.children[0].textContent = "PLAYER 2’S TURN"
         $currentTimeIndicator.classList.remove('red-turn')
         $currentTimeIndicator.classList.add('yellow-turn')
     }
-    
-    
+
+
     turnTimer = 15
 }
 
 
-function restartGame(all){
+function restartGame(all) {
     board = [
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""],
@@ -216,71 +245,75 @@ function restartGame(all){
         ["", "", "", "", "", "", ""]
     ]
     $winnerAlert.classList.add('hidden')
+    $currentTimeIndicator.classList.remove('hidden')
+    document.querySelector('.game-board').style.pointerEvents = "initial"
     previousStarter = previousStarter === "o" ? "x" : "o";
 
- 
+
     $game.style.pointerEvents = "initial";
     $winnerIndicator.style.backgroundColor = "#5C2DD5";
     turnTimer = 15
     timeControler()
-    $gamecells.forEach((gameCell) =>{
+    $gamecells.forEach((gameCell) => {
         gameCell.className = "board-cell"
     })
-    console.log(currentPlayer)
-    if(all === true){
+    if (all === true) {
         player1Score = 0
-        $gameBoardYellow.textContent  = player1Score 
+        $gameBoardYellow.textContent = player1Score
         player2Score = 0
-        $gameBoardRed.textContent  = player2Score 
+        $gameBoardRed.textContent = player2Score
     }
 }
 
 
-function timeControler(){
+function timeControler() {
     timerInterval = setInterval(() => {
         turnTimer--;
-        
+
         $currentTimeIndicatorP.textContent = `${turnTimer}s`;
-        if(turnTimer === 0){
+        if (turnTimer === 0) {
             updateGame(0, 0, true);
+            clearInterval(timerInterval)
+            timeControler()
         }
     }, 1000);
 }
 
 
 
-$startGameBtn.addEventListener('click', () =>{
+$startGameBtn.addEventListener('click', () => {
     $menu.classList.add('hidden')
     $game.classList.remove('hidden')
     $winnerIndicator.classList.remove('hidden')
     timeControler()
 })
 
-$rulesBtn.addEventListener('click', () =>{
+$rulesBtn.addEventListener('click', () => {
     $gameRulesScreen.classList.toggle('hidden')
 })
 
-$gameRulesScreenBtn.addEventListener('click', () =>{
+$gameRulesScreenBtn.addEventListener('click', () => {
     $gameRulesScreen.classList.toggle('hidden')
 })
 
-document.querySelector('.nav-restart-btn').addEventListener('click', () =>{
+document.querySelector('.nav-restart-btn').addEventListener('click', () => {
     restartGame()
 })
 
-$gamePauseMenuBtn.addEventListener('click', ()=>{
+$gamePauseMenuBtn.addEventListener('click', () => {
     $gamePauseMenu.classList.toggle('hidden')
+    clearInterval(timerInterval)
 })
 
-document.querySelector('.game-menu-continue-btn').addEventListener('click', () =>{
+document.querySelector('.game-menu-continue-btn').addEventListener('click', () => {
     $gamePauseMenu.classList.toggle('hidden')
-
+    timeControler()
 })
 
-document.querySelector('.game-menu-restart-btn').addEventListener('click', () =>{
+document.querySelector('.game-menu-restart-btn').addEventListener('click', () => {
     restartGame(true)
 })
 
-document.querySelector('.game-menu-quit-btn').addEventListener('click', () =>{
+document.querySelector('.game-menu-quit-btn').addEventListener('click', () => {
     location.reload()
 })

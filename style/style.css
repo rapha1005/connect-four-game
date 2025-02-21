@@ -2,15 +2,15 @@
 @import 'reset.css';
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
-*{
+* {
     font-family: "Space Grotesk", serif;
 }
 
-body{
+body {
     background-color: #7945FF;
 }
 
-main{
+main {
     height: 100vh;
     display: flex;
     align-items: center;
@@ -18,7 +18,7 @@ main{
 }
 
 
-.menu{
+.menu {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,20 +31,20 @@ main{
     box-shadow: 0px 8px 0px 0px #000000;
 }
 
-.center{
+.center {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 50px;
 }
 
-nav{
+nav {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-nav button{
+nav button {
     background-color: #5C2DD5;
     border: none;
     height: fit-content;
@@ -58,12 +58,12 @@ nav button{
     transition-duration: 0.3s;
 }
 
-nav button:hover{
+nav button:hover {
     background-color: #FD6687;
 }
 
 
-.start-game-btn{
+.start-game-btn {
     width: 100%;
     display: flex;
     gap: 100px;
@@ -80,11 +80,11 @@ nav button:hover{
     cursor: pointer;
 }
 
-.start-game-btn:hover{
+.start-game-btn:hover {
     box-shadow: 0px 10px 0px 0px #5C2DD5;
 }
 
-.rules-btn{
+.rules-btn {
     width: 100%;
     text-align: left;
     font-size: 24px;
@@ -97,11 +97,11 @@ nav button:hover{
     cursor: pointer;
 }
 
-.rules-btn:hover{
+.rules-btn:hover {
     box-shadow: 0px 10px 0px 0px #5C2DD5;
 }
 
-.game-board{
+.game-board {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(6, 1fr);
@@ -110,14 +110,14 @@ nav button:hover{
     background-color: white;
     padding: 20px;
     padding-bottom: 60px;
-    border: 3px solid black; 
+    border: 3px solid black;
     border-radius: 32px;
     box-shadow: 0px 16px 0px 0px #000000;
 }
 
 
-    
-.board-cell{
+
+.board-cell {
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -127,7 +127,7 @@ nav button:hover{
     cursor: pointer;
 }
 
-.winner-indicator{
+.winner-indicator {
     position: absolute;
     transform: translate(-50%, 0%);
     bottom: 0;
@@ -141,14 +141,14 @@ nav button:hover{
     transition-duration: 0.2s;
 }
 
-.red-circle{
+.red-circle {
     background-color: #FD6687;
-    box-shadow: inset 0px 6px 0px 0px  rgba(0,0,0,0.41);
+    box-shadow: inset 0px 6px 0px 0px rgba(0, 0, 0, 0.41);
 }
 
-.yellow-circle{
+.yellow-circle {
     background-color: #FFCE67;
-    box-shadow: inset 0px 6px 0px 0px  rgba(0,0,0,0.41);
+    box-shadow: inset 0px 6px 0px 0px rgba(0, 0, 0, 0.41);
 }
 
 .winner-red-circle {
@@ -173,7 +173,7 @@ nav button:hover{
 
 
 
-.player-board{
+.player-board {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -186,23 +186,23 @@ nav button:hover{
     border: 3px solid black;
 }
 
-.player{
+.player {
     position: absolute;
     margin-top: -60px;
     transform: translate(50%, 50%);
 }
 
 
-.player-board svg{
+.player-board svg {
     position: relative;
     top: -25px;
 }
 
-.player-board p{
+.player-board p {
     font-size: 56px;
 }
 
-.game{
+.game {
     display: flex;
     align-items: center;
     gap: 60px;
@@ -210,7 +210,7 @@ nav button:hover{
 
 
 
-.rules-screen{
+.rules-screen {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -226,44 +226,45 @@ nav button:hover{
     padding-top: 30px;
 }
 
-.rules-screen *{
+.rules-screen * {
     max-width: 456px;
 }
 
-.rules-screen h2{
+.rules-screen h2 {
     text-align: center;
     font-weight: 700;
     font-size: 56px;
     margin-bottom: 29px;
 }
 
-.rules-screen h3{
+.rules-screen h3 {
     color: #7945FF;
     margin-bottom: 16px;
     font-size: 20px;
 }
 
-.rules-screen p, li{
+.rules-screen p,
+li {
     opacity: 70%;
     margin-bottom: 10px;
     font-size: 16px;
-    
+
 }
 
-.rules-screen p{
+.rules-screen p {
     margin-bottom: 29px;
 }
 
-ol{
-    padding-left: 15px;   
+ol {
+    padding-left: 15px;
 }
 
-.close-rules-btn{
+.close-rules-btn {
     opacity: 100%;
     align-self: center;
     width: 64px;
     height: 64px;
-    background-color:#FD6687ed;
+    background-color: #FD6687ed;
     border: 3px solid black;
     box-shadow: 0px 5px 0px 0px #000000;
     border-radius: 50%;
@@ -278,7 +279,7 @@ ol{
 
 
 
-.game-pause-menu{
+.game-pause-menu {
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
@@ -291,13 +292,13 @@ ol{
     text-align: center;
 }
 
-.game-pause-menu h2{
+.game-pause-menu h2 {
     color: #FFFFFF;
     font-size: 56px;
     font-weight: 700;
 }
 
-.game-pause-menu button{
+.game-pause-menu button {
     width: 90%;
     padding: 21px;
     background-color: #FFFFFF;
@@ -310,15 +311,20 @@ ol{
     cursor: pointer;
 }
 
+.game-pause-menu button:hover {
+    box-shadow: 0px 10px 0px 0px #5C2DD5;
+
+}
+
 .game-menu-quit-btn {
     background-color: #FD6687 !important;
     color: white;
 }
 
 
-.time-indicator{
+.time-indicator {
     position: absolute;
-    bottom: -50px;
+    bottom: -8vh;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 198px;
@@ -329,7 +335,7 @@ ol{
     text-align: center;
 }
 
-.time-indicator p{
+.time-indicator p {
     font-weight: 700;
     font-size: 56px;
     line-height: 72px;
@@ -339,14 +345,15 @@ ol{
 .red-turn {
     background-image: url(../images/turn-background-red.svg);
     color: white;
-  }
-  .yellow-turn {
+}
+
+.yellow-turn {
     background-image: url(../images/turn-background-yellow.svg);
     color: white;
-  }  
+}
 
 
-.winner{
+.winner {
     position: absolute;
     bottom: -50px;
     left: 50%;
@@ -361,11 +368,11 @@ ol{
     border-radius: 20px;
 }
 
-.winner h2{
+.winner h2 {
     font-size: 56px;
 }
 
-.winner button{
+.winner button {
     background-color: #5C2DD5;
     color: white;
     font-weight: 700;
@@ -381,6 +388,6 @@ ol{
 
 
 
-.hidden{
+.hidden {
     display: none;
 }
